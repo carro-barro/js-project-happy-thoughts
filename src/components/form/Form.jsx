@@ -1,33 +1,61 @@
 import styled from "styled-components"
+import { useState } from "react"
 import { FormLegend } from "./FormLegend"
 import { SubmitButton } from "./SubmitButton"
+import { Card } from "../assets/Card"
 
-const StyledForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  background-color: ${({ theme }) => theme.color.background.secondary};
-  padding: 20px;
-  margin: 20px auto;
-  width: 80%;
-  max-width: 300px;
-  height: auto;
-  box-shadow: ${({ theme }) => theme.color.ui.shadow};
-  border: 1px solid ${({ theme }) => theme.color.ui.border};
-  `
 const StyledInput = styled.input`
+  font-family: monospace;
   padding: 10px 20px 40px 10px;
   margin-bottom: 10px;
   border: 1px solid ${({ theme }) => theme.color.text.secondary};
-  border-radius: 5px;
   font-size: 13px;
+  width: 100%;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    font-size: 15px;
+  }
+
 `
 
-export const Form = () => {
+export const Form = ({ setMessages }) => {
+  const [myValue, setMyValue] = useState("")
+
+  const handleInputChange = (event) => {
+    setMyValue(event.target.value)
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+
+    if (myValue.trim() === "") {
+      return
+    }
+
+    const newMessage = {
+      text: myValue,
+      timestamp: Date.now()
+    }
+
+    setMessages(prevMessages => [newMessage, ...prevMessages])
+
+    setMyValue("")
+  }
   return (
-    <StyledForm>
-      <FormLegend></FormLegend>
-      <StyledInput type="text" placeholder="Type your happy thought..." maxLength="140" />
-      <SubmitButton />
-    </StyledForm>
+    <Card variant="form">
+      <form onSubmit={handleSubmit}>
+        <FormLegend></FormLegend>
+        <StyledInput
+          type="text"
+          placeholder="Type your happy thought..."
+          value={myValue}
+          onChange={handleInputChange}
+          maxLength={140}
+          required
+        />
+        <p>{myValue.length}/140</p>
+        <SubmitButton />
+      </form>
+    </Card>
   )
 }

@@ -1,5 +1,7 @@
 import styled, { createGlobalStyle } from "styled-components"
+import { useState } from "react"
 import { Form } from "./components/form/Form"
+import { SubmittedMessage } from "./components/submitted message/SubmittedMessage"
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -8,15 +10,24 @@ const GlobalStyle = createGlobalStyle`
 
   body {
    margin: 0;
-   font-family: "roboto mono";
+   font-family: monospace;
   }
 `
 
 export const App = () => {
+  const [messages, setMessages] = useState([])
+
   return (
     <>
       <GlobalStyle></GlobalStyle>
-      <Form />
+      <Form setMessages={setMessages} />
+      {messages.map((message, index) =>
+        <SubmittedMessage
+          key={index}
+          submittedMessage={message.text} timestamp={message.timestamp}
+        />
+
+      )}
     </>
   )
 }

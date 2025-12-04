@@ -1,10 +1,10 @@
 import styled from "styled-components"
 
 const StyledButton = styled.button`
-  padding: 10px 20px;
+  
   border: none;
   max-width: fit-content;
-  font-family: "roboto mono";
+  font-family: monospace;
   font-size: 11px;
 
   ${({ theme, $variant }) =>
@@ -13,14 +13,20 @@ const StyledButton = styled.button`
       background-color: ${theme.color.action.primary};
       color: ${theme.color.text.primary};
       border-radius: 20px;
+      padding: 10px 20px;
     `}
 
   ${({ theme, $variant }) =>
     $variant === "like" &&
     `
       background-color: ${theme.color.action.secondary};
-      border-radius: 50%;
+      border-radius: 70%;
+      padding: 10px 12px;
     `}
+
+    @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+      font-size: 13px;
+  }
 `
 
 
