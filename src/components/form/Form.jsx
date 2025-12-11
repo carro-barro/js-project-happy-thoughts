@@ -1,3 +1,4 @@
+
 import styled from "styled-components"
 import { useState } from "react"
 import { FormLegend } from "./FormLegend"
@@ -8,14 +9,21 @@ const StyledInput = styled.input`
   font-family: monospace;
   padding: 10px 20px 40px 10px;
   margin-bottom: 10px;
-  border: 1px solid ${({ theme }) => theme.color.text.secondary};
+  border: 1px solid ${({ theme, $isOverLimit }) => $isOverLimit ? 'red' : theme.color.text.secondary};
   font-size: 13px;
   width: 100%;
 
-  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    font-size: 15px;
+  &:focus {
+    outline: none;
+    border-color: ${({ theme, $isOverLimit }) => $isOverLimit ? 'red' : theme.color.text.secondary};
   }
 
+  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    font-size: 15px;
+}
+`
+const StyledCounter = styled.p`
+  color: ${({ theme, $isOverLimit }) => $isOverLimit ? 'red' : theme.color.text.secondary};
 `
 
 export const Form = ({ setMessages }) => {
@@ -30,7 +38,7 @@ export const Form = ({ setMessages }) => {
 
     const trimmedValue = myValue.trim()
 
-    if (trimmedValue === "") {
+    if (trimmedValue === "" || trimmedValue.length > 140) {
       return
     }
 
@@ -55,6 +63,11 @@ export const Form = ({ setMessages }) => {
     }
 
   }
+  const MAX_LENGTH = 140
+  const remainingChars = MAX_LENGTH - myValue.length
+  const isOverLimit = remainingChars < 0
+  const isSubmitDisabled = myValue.trim() === "" || isOverLimit
+
   return (
     <Card variant="form">
       <form onSubmit={handleSubmit}>
@@ -64,12 +77,14 @@ export const Form = ({ setMessages }) => {
           placeholder="Type your happy thought..."
           value={myValue}
           onChange={handleInputChange}
-          maxLength={140}
           required
+          $isOverLimit={isOverLimit}
         />
-        <p>{myValue.length}/140</p>
-        <SubmitButton />
+        <StyledCounter $isOverLimit={isOverLimit}>{isOverLimit ? 0 : remainingChars} characters remaining</StyledCounter>
+        <SubmitButton disabled={isSubmitDisabled} />
       </form>
     </Card>
   )
 }
+
+

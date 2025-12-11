@@ -1,4 +1,3 @@
-
 import styled from "styled-components"
 import { Card } from "../assets/Card"
 import { LikeButton } from "./LikeButton"
@@ -31,3 +30,4 @@ export const SubmittedMessage = ({ submittedMessage, timestamp, likes, _id, onLi
     </Card>
   )
 }
+
