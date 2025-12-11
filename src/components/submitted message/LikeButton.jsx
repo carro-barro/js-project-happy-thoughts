@@ -8,13 +8,25 @@ const StyledLikeContainer = styled.div`
   gap: 5px;
   `
 
-export const LikeButton = (props) => {
-  const [likes, setLikes] = useState(0);
+export const LikeButton = ({ likes, _id, onLike }) => {
+  const [isClicked, setIsClicked] = useState(false)
+
+  const handleClick = () => {
+    setIsClicked(prevIsClicked => !prevIsClicked)
+
+    if (!isClicked) {
+      onLike(_id)
+    }
+  }
 
   return (
     <StyledLikeContainer>
-      <Button variant="like">❤️</Button>
-      <p> x {props.likes}</p>
+      <Button
+        variant="like"
+        onClick={handleClick}
+        $isClicked={isClicked}>❤️
+      </Button>
+      <p> x {likes}</p>
     </StyledLikeContainer>
   )
 }

@@ -25,21 +25,35 @@ export const Form = ({ setMessages }) => {
     setMyValue(event.target.value)
   }
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault()
 
-    if (myValue.trim() === "") {
+    const trimmedValue = myValue.trim()
+
+    if (trimmedValue === "") {
       return
     }
 
-    const newMessage = {
-      text: myValue,
-      timestamp: Date.now()
+    const postedMessage = {
+      message: trimmedValue
     }
 
-    setMessages(prevMessages => [newMessage, ...prevMessages])
+    try {
+      const response = await fetch("https://happy-thoughts-api-4ful.onrender.com/thoughts", {
+        method: "POST",
+        body: JSON.stringify(postedMessage),
+        headers: { "Content-Type": "application/json" },
+      })
+      const newMessage = await response.json()
 
-    setMyValue("")
+
+      setMessages(prevMessages => [newMessage, ...prevMessages])
+
+      setMyValue("")
+    } catch (error) {
+      console.error("Error submitting message:", error)
+    }
+
   }
   return (
     <Card variant="form">

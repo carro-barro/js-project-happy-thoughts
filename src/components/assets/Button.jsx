@@ -16,10 +16,10 @@ const StyledButton = styled.button`
       padding: 10px 20px;
     `}
 
-  ${({ theme, $variant }) =>
+  ${({ theme, $variant, $isClicked }) =>
     $variant === "like" &&
     `
-      background-color: ${theme.color.action.secondary};
+      background-color: ${$isClicked ? theme.color.action.primary : theme.color.action.secondary}
       border-radius: 70%;
       padding: 10px 12px;
     `}
@@ -30,6 +30,6 @@ const StyledButton = styled.button`
 `
 
 
-export const Button = ({ variant, children }) => {
-  return <StyledButton $variant={variant}>{children}</StyledButton>
+export const Button = ({ variant, children, onClick, $isClicked }) => {
+  return <StyledButton $variant={variant} onClick={onClick} $isClicked={$isClicked}>{children}</StyledButton>
 }

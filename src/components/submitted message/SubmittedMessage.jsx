@@ -2,6 +2,7 @@
 import styled from "styled-components"
 import { Card } from "../assets/Card"
 import { LikeButton } from "./LikeButton"
+import { DateDisplay } from "./DisplayDate"
 
 const StyledMessage = styled.p`
   font-size: 13px;
@@ -19,13 +20,13 @@ const StyledInfo = styled.div`
   color: ${({ theme }) => theme.color.text.secondary};
 `
 
-export const SubmittedMessage = ({ submittedMessage, timestamp }) => {
+export const SubmittedMessage = ({ submittedMessage, timestamp, likes, _id, onLike }) => {
   return (
     <Card variant="submitted">
       <StyledMessage>{submittedMessage}</StyledMessage>
       <StyledInfo>
-        <LikeButton />
-        <p>{timestamp} ago</p>
+        <LikeButton likes={likes} _id={_id} onLike={onLike} />
+        <DateDisplay timestamp={timestamp} />
       </StyledInfo>
     </Card>
   )
