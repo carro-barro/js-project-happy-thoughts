@@ -25,20 +25,42 @@ const StyledInput = styled.input`
 const StyledCounter = styled.p`
   color: ${({ theme, $isOverLimit }) => $isOverLimit ? 'red' : theme.color.text.secondary};
 `
+const StyledError = styled.p`
+  color: red;
+  font-size: 13px;
+  margin-top: -5px; /* Adjust spacing to align with counter area */
+  margin-bottom: 10px;
+`
 
 export const Form = ({ setMessages }) => {
   const [myValue, setMyValue] = useState("")
+  const [error, setError] = useState(null)
 
   const handleInputChange = (event) => {
     setMyValue(event.target.value)
+    setError(null)
   }
 
   const handleSubmit = async (event) => {
     event.preventDefault()
+    setError(null)
 
     const trimmedValue = myValue.trim()
+    const MAX_LENGTH_VAL = 140
+    const MIN_LENGTH = 5
 
-    if (trimmedValue === "" || trimmedValue.length > 140) {
+    if (trimmedValue === "") {
+      setError("The happy thought cannot be empty.")
+      return
+    }
+
+    if (trimmedValue.length > MAX_LENGTH_VAL) {
+      setError(`The happy thought is too long (over ${MAX_LENGTH_VAL} characters).`)
+      return
+    }
+
+    if (trimmedValue.length < MIN_LENGTH) {
+      setError(`The happy thought must be at least ${MIN_LENGTH} characters long.`)
       return
     }
 
@@ -77,11 +99,11 @@ export const Form = ({ setMessages }) => {
           placeholder="Type your happy thought..."
           value={myValue}
           onChange={handleInputChange}
-          required
           $isOverLimit={isOverLimit}
         />
         <StyledCounter $isOverLimit={isOverLimit}>{isOverLimit ? 0 : remainingChars} characters remaining</StyledCounter>
-        <SubmitButton disabled={isSubmitDisabled} />
+        {error && <StyledError>{error}</StyledError>}
+        <SubmitButton />
       </form>
     </Card>
   )
