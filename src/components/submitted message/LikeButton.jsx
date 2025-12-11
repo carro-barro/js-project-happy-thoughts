@@ -1,6 +1,6 @@
 import styled from "styled-components"
 import { Button } from "../assets/Button"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 const StyledLikeContainer = styled.div`
   display: flex;
@@ -9,14 +9,23 @@ const StyledLikeContainer = styled.div`
   `
 
 export const LikeButton = ({ likes, _id, onLike }) => {
-  const [isClicked, setIsClicked] = useState(false)
+  const [isLiked, setIsLiked] = useState(false)
+
+  useEffect(() => {
+    const saved = JSON.parse(localStorage.getItem("likedThoughts"))
+    setIsLiked(saved.includes(_id))
+  }, [_id])
 
   const handleClick = () => {
-    setIsClicked(prevIsClicked => !prevIsClicked)
+    if (isLiked) return
 
-    if (!isClicked) {
-      onLike(_id)
-    }
+    onLike(_id)
+
+    const saved = JSON.parse(localStorage.getItem("likedThoughts"))
+    const updated = [...saved, _id]
+    localStorage.setItem("likedThoughts", JSON.stringify(updated))
+
+    setIsLiked(true)
   }
 
   return (
@@ -24,7 +33,9 @@ export const LikeButton = ({ likes, _id, onLike }) => {
       <Button
         variant="like"
         onClick={handleClick}
-        $isClicked={isClicked}>❤️
+        $isClicked={isLiked}
+        disabled={isLiked}
+      >❤️
       </Button>
       <p> x {likes}</p>
     </StyledLikeContainer>

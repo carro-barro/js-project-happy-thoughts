@@ -19,9 +19,12 @@ const StyledButton = styled.button`
   ${({ theme, $variant, $isClicked }) =>
     $variant === "like" &&
     `
-      background-color: ${$isClicked ? theme.color.action.primary : theme.color.action.secondary}
+      background-color: ${$isClicked ? theme.color.action.primary : theme.color.action.secondary};
+      color: ${theme.color.text.primary};
       border-radius: 70%;
       padding: 10px 12px;
+       cursor: pointer;
+      transition: background-color 0.2s;
     `}
 
     @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
@@ -30,6 +33,6 @@ const StyledButton = styled.button`
 `
 
 
-export const Button = ({ variant, children, onClick, $isClicked }) => {
-  return <StyledButton $variant={variant} onClick={onClick} $isClicked={$isClicked}>{children}</StyledButton>
+export const Button = ({ variant, children, onClick, $isClicked, disabled }) => {
+  return <StyledButton $variant={variant} onClick={onClick} $isClicked={$isClicked} disabled={disabled}>{children}</StyledButton>
 }

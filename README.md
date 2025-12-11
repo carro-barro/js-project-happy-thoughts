@@ -41,7 +41,7 @@ heart like not clicked: #eaeaea
 icon:
 red heart emoji
 
-setconent:
+set conent:
 submition legend: What's making you happy right now?
 
 components:
