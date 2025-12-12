@@ -1,6 +1,6 @@
 # Happy Thoughts
 
-Netlify:
+Netlify: https://carolina-happy-thoughts.netlify.app/
 
 * Requirements
 - Your app should follow the design
