@@ -12,7 +12,10 @@ export const LikeButton = ({ likes, _id, onLike }) => {
   const [isLiked, setIsLiked] = useState(false)
 
   useEffect(() => {
-    const saved = JSON.parse(localStorage.getItem("likedThoughts"))
+    const savedItem = localStorage.getItem("likedThoughts")
+
+    const saved = savedItem ? JSON.parse(savedItem) : []
+
     setIsLiked(saved.includes(_id))
   }, [_id])
 
@@ -21,7 +24,10 @@ export const LikeButton = ({ likes, _id, onLike }) => {
 
     onLike(_id)
 
-    const saved = JSON.parse(localStorage.getItem("likedThoughts"))
+    const savedItem = localStorage.getItem("likedThoughts")
+
+    const saved = savedItem ? JSON.parse(savedItem) : []
+
     const updated = [...saved, _id]
     localStorage.setItem("likedThoughts", JSON.stringify(updated))
 
