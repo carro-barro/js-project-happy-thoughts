@@ -3,7 +3,7 @@
 import styled, { createGlobalStyle } from "styled-components"
 import { useState, useEffect } from "react"
 import { Form } from "./components/form/Form"
-import { SubmittedMessage } from "./components/submitted message/SubmittedMessage"
+import { SubmittedMessage } from "./components/submitted_message/SubmittedMessage"
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -40,8 +40,6 @@ export const App = () => {
       try {
         const res = await fetch("https://happy-thoughts-api-4ful.onrender.com/thoughts")
         const json = await res.json()
-
-        console.log("Fetched messages:", json)
 
         setMessages(json)
       } catch (error) {
