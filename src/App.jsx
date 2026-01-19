@@ -1,9 +1,9 @@
-
-
-import styled, { createGlobalStyle } from "styled-components"
+import { createGlobalStyle } from "styled-components"
 import { useState, useEffect } from "react"
 import { Form } from "./components/form/Form"
 import { SubmittedMessage } from "./components/submitted_message/SubmittedMessage"
+import { API_URL } from "./Constants"
+import { Loader } from "./components/assets/Loader"
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -18,10 +18,12 @@ const GlobalStyle = createGlobalStyle`
 
 export const App = () => {
   const [messages, setMessages] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(false)
 
   const handleLikes = async (_id) => {
     try {
-      const response = await fetch(`https://happy-thoughts-api-4ful.onrender.com/thoughts/${_id}/like`, {
+      const response = await fetch(`${API_URL}/${_id}/like`, {
         method: "POST"
       })
 
@@ -38,12 +40,15 @@ export const App = () => {
 
     const fetchMessages = async () => {
       try {
-        const res = await fetch("https://happy-thoughts-api-4ful.onrender.com/thoughts")
+        const res = await fetch(`${API_URL}`)
         const json = await res.json()
 
         setMessages(json)
+        setLoading(false)
       } catch (error) {
         console.log("error: couldn't fetch the messages", error)
+        setLoading(false)
+        setError(true)
       }
     }
 
@@ -53,8 +58,10 @@ export const App = () => {
 
   return (
     <>
-      <GlobalStyle></GlobalStyle>
+      <GlobalStyle />
       <Form setMessages={setMessages} />
+      {loading && <Loader />}
+      {error && <p>Couldn't fetch messages right now, Try again later!</p>}
       {(messages || []).map((message) =>
         <SubmittedMessage
           key={message._id}

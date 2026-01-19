@@ -4,6 +4,7 @@ import { useState } from "react"
 import { FormLegend } from "./FormLegend"
 import { SubmitButton } from "./SubmitButton"
 import { Card } from "../assets/Card"
+import { API_URL, MAX_LENGTH, MIN_LENGTH } from "../../Constants"
 
 const StyledInput = styled.input`
   font-family: monospace;
@@ -36,6 +37,11 @@ export const Form = ({ setMessages }) => {
   const [myValue, setMyValue] = useState("")
   const [error, setError] = useState(null)
 
+  const trimmedValue = myValue.trim()
+  const remainingChars = MAX_LENGTH - myValue.length
+  const isOverLimit = remainingChars < 0
+  const isSubmitDisabled = myValue.trim() === "" || isOverLimit
+
   const handleInputChange = (event) => {
     setMyValue(event.target.value)
     setError(null)
@@ -45,17 +51,14 @@ export const Form = ({ setMessages }) => {
     event.preventDefault()
     setError(null)
 
-    const trimmedValue = myValue.trim()
-    const MAX_LENGTH_VAL = 140
-    const MIN_LENGTH = 5
 
     if (trimmedValue === "") {
       setError("The happy thought cannot be empty.")
       return
     }
 
-    if (trimmedValue.length > MAX_LENGTH_VAL) {
-      setError(`The happy thought is too long (over ${MAX_LENGTH_VAL} characters).`)
+    if (trimmedValue.length > MAX_LENGTH) {
+      setError(`The happy thought is too long (over ${MAX_LENGTH} characters).`)
       return
     }
 
@@ -69,7 +72,7 @@ export const Form = ({ setMessages }) => {
     }
 
     try {
-      const response = await fetch("https://happy-thoughts-api-4ful.onrender.com/thoughts", {
+      const response = await fetch(API_URL, {
         method: "POST",
         body: JSON.stringify(postedMessage),
         headers: { "Content-Type": "application/json" },
@@ -85,10 +88,6 @@ export const Form = ({ setMessages }) => {
     }
 
   }
-  const MAX_LENGTH = 140
-  const remainingChars = MAX_LENGTH - myValue.length
-  const isOverLimit = remainingChars < 0
-  const isSubmitDisabled = myValue.trim() === "" || isOverLimit
 
   return (
     <Card variant="form">
