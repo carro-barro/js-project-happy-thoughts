@@ -1,9 +1,10 @@
-import { createGlobalStyle } from "styled-components"
+import styled, { createGlobalStyle } from "styled-components"
 import { useState, useEffect } from "react"
 import { Form } from "./components/form/Form"
 import { SubmittedMessage } from "./components/submitted_message/SubmittedMessage"
 import { API_URL } from "./Constants"
 import { Loader } from "./components/assets/Loader"
+import { ErrorMessage } from "./components/assets/ErrorMessage"
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -15,6 +16,7 @@ const GlobalStyle = createGlobalStyle`
    font-family: monospace;
   }
 `
+
 
 export const App = () => {
   const [messages, setMessages] = useState([])
@@ -61,7 +63,7 @@ export const App = () => {
       <GlobalStyle />
       <Form setMessages={setMessages} />
       {loading && <Loader />}
-      {error && <p>Couldn't fetch messages right now, Try again later!</p>}
+      {error && <ErrorMessage />}
       {(messages || []).map((message) =>
         <SubmittedMessage
           key={message._id}
