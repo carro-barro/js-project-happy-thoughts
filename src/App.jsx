@@ -2,7 +2,7 @@ import styled, { createGlobalStyle } from "styled-components"
 import { useState, useEffect } from "react"
 import { Form } from "./components/form/Form"
 import { SubmittedMessage } from "./components/submitted_message/SubmittedMessage"
-import { API_URL } from "./Constants"
+import { API_URL_HAPPY_THOUGHTS } from "./Constants"
 import { Loader } from "./components/assets/Loader"
 import { ErrorMessage } from "./components/assets/ErrorMessage"
 
@@ -42,10 +42,14 @@ export const App = () => {
 
     const fetchMessages = async () => {
       try {
-        const res = await fetch(`${API_URL}`)
+        const res = await fetch(`${API_URL_HAPPY_THOUGHTS}`)
         const json = await res.json()
 
-        setMessages(json)
+        if (!json.success) {
+          console.error("an error occured")
+        }
+
+        setMessages(json.response)
         setLoading(false)
       } catch (error) {
         console.log("error: couldn't fetch the messages", error)

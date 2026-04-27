@@ -4,7 +4,7 @@ import { useState } from "react"
 import { FormLegend } from "./FormLegend"
 import { SubmitButton } from "./SubmitButton"
 import { Card } from "../assets/Card"
-import { API_URL, MAX_LENGTH, MIN_LENGTH } from "../../Constants"
+import { API_URL_HAPPY_THOUGHTS, MAX_LENGTH, MIN_LENGTH } from "../../Constants"
 
 const StyledInput = styled.input`
   font-family: monospace;
@@ -72,7 +72,7 @@ export const Form = ({ setMessages }) => {
     }
 
     try {
-      const response = await fetch(API_URL, {
+      const response = await fetch(`${API_URL_HAPPY_THOUGHTS}`, {
         method: "POST",
         body: JSON.stringify(postedMessage),
         headers: { "Content-Type": "application/json" },
