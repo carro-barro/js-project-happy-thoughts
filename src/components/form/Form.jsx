@@ -4,6 +4,7 @@ import { useState } from "react"
 import { FormLegend } from "./FormLegend"
 import { SubmitButton } from "./SubmitButton"
 import { Card } from "../assets/Card"
+import { FormInput } from "../assets/FormInput"
 import { API_URL_HAPPY_THOUGHTS, MAX_LENGTH, MIN_LENGTH } from "../../Constants"
 
 const StyledInput = styled.input`
@@ -92,8 +93,8 @@ export const Form = ({ setMessages }) => {
   return (
     <Card variant="form">
       <form onSubmit={handleSubmit}>
-        <FormLegend></FormLegend>
-        <StyledInput
+        <FormLegend />
+        <FormInput
           type="text"
           placeholder="Type your happy thought..."
           value={myValue}

@@ -1,10 +1,10 @@
-import styled, { createGlobalStyle } from "styled-components"
-import { useState, useEffect } from "react"
-import { Form } from "./components/form/Form"
-import { SubmittedMessage } from "./components/submitted_message/SubmittedMessage"
-import { API_URL_HAPPY_THOUGHTS } from "./Constants"
-import { Loader } from "./components/assets/Loader"
-import { ErrorMessage } from "./components/assets/ErrorMessage"
+import { ThemeProvider, createGlobalStyle } from "styled-components"
+import { Theme } from "./Theme"
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
+import { HappyThoughts } from "./pages/HappyThoughts"
+import { Login } from "./pages/Login"
+import { Signup } from "./pages/Signup"
+import { Home } from "./pages/Home"
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -17,64 +17,18 @@ const GlobalStyle = createGlobalStyle`
   }
 `
 
-
 export const App = () => {
-  const [messages, setMessages] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(false)
-
-  const handleLikes = async (_id) => {
-    try {
-      const response = await fetch(`${API_URL}/${_id}/like`, {
-        method: "POST"
-      })
-
-      const updatedMessage = await response.json()
-
-      setMessages(prevMessages => prevMessages.map(msg => msg._id === updatedMessage._id ? updatedMessage : msg))
-
-    } catch (error) {
-      console.error("Error liking message:", error)
-    }
-  }
-
-  useEffect(() => {
-
-    const fetchMessages = async () => {
-      try {
-        const res = await fetch(`${API_URL_HAPPY_THOUGHTS}`)
-        const json = await res.json()
-
-        if (!json.success) {
-          console.error("an error occured")
-        }
-
-        setMessages(json.response)
-        setLoading(false)
-      } catch (error) {
-        console.log("error: couldn't fetch the messages", error)
-        setLoading(false)
-        setError(true)
-      }
-    }
-
-    fetchMessages()
-
-  }, [])
-
   return (
-    <>
+    <ThemeProvider theme={Theme}>
       <GlobalStyle />
-      <Form setMessages={setMessages} />
-      {loading && <Loader />}
-      {error && <ErrorMessage />}
-      {(messages || []).map((message) =>
-        <SubmittedMessage
-          key={message._id}
-          submittedMessage={message.message} timestamp={message.createdAt} likes={message.hearts} _id={message._id}
-          onLike={handleLikes}
-        />
-      )}
-    </>
+      <BrowserRouter>
+        <Routes>
+            <Route path="/" element={ <Home/>}/>
+            <Route path="/happy-thoughts" element={<HappyThoughts />}/>
+            <Route path="/logga-in" element={<Login />}/>
+            <Route path="/skapa-konto" element={<Signup/>}/>
+        </Routes>
+      </BrowserRouter>
+    </ThemeProvider>
   )
 }

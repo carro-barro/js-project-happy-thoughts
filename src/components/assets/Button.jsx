@@ -6,14 +6,21 @@ const StyledButton = styled.button`
   max-width: fit-content;
   font-family: monospace;
   font-size: 11px;
+  text-decoration: none;
+  color: ${({theme}) => theme.color.text.primary};
+  border-radius: 20px;
+  padding: 10px 20px;
 
   ${({ theme, $variant }) =>
     $variant === "submit" &&
     `
       background-color: ${theme.color.action.primary};
-      color: ${theme.color.text.primary};
-      border-radius: 20px;
-      padding: 10px 20px;
+    `}
+
+    ${({ theme, $variant }) =>
+    $variant === "go-back" &&
+    `
+      background-color: ${theme.color.action.secondary};
     `}
 
   ${({ theme, $variant, $isClicked }) =>
@@ -33,6 +40,6 @@ const StyledButton = styled.button`
 `
 
 
-export const Button = ({ variant, children, onClick, $isClicked, disabled }) => {
-  return <StyledButton $variant={variant} onClick={onClick} $isClicked={$isClicked} disabled={disabled}>{children}</StyledButton>
+export const Button = ({ variant, text, onClick, $isClicked, disabled, ...props }) => {
+  return <StyledButton $variant={variant} onClick={onClick} $isClicked={$isClicked} disabled={disabled} {...props}>{text}</StyledButton>
 }
