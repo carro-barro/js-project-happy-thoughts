@@ -2,7 +2,7 @@
 import styled from "styled-components"
 import { useState } from "react"
 import { FormLegend } from "./FormLegend"
-import { SubmitButton } from "./SubmitButton"
+import { Button } from "../assets/Button"
 import { Card } from "../assets/Card"
 import { FormInput } from "../assets/FormInput"
 import { API_URL_HAPPY_THOUGHTS, MAX_LENGTH, MIN_LENGTH } from "../../Constants"
@@ -103,7 +103,7 @@ export const Form = ({ setMessages }) => {
         />
         <StyledCounter $isOverLimit={isOverLimit}>{isOverLimit ? 0 : remainingChars} characters remaining</StyledCounter>
         {error && <StyledError>{error}</StyledError>}
-        <SubmitButton />
+        <Button variant="submit" type="submit">❤️ Send Happy Thought ❤️</Button>
       </form>
     </Card>
   )

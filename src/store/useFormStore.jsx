@@ -28,22 +28,6 @@ export const useFormStore = create((set) => ({
       signUpData: { ...state.signUpData, [field]: value}
     })),
 
-  setWorkStatus: (value, checked) => 
-    set((state) => ({
-      signUpData: {
-        ...state.signUpData, 
-        workStatus: {...state.signUpData.workStatus, [value]: checked}
-      }
-    })),
-
-  setOtherText: (text) => 
-    set((state) => ({
-      signUpData: {
-        ...state.signUpData,
-        workStatus: {...state.signUpData.workStatus, otherText: text}
-      }
-    })),
-
   setSignUpError: (error) =>
     set((state) => ({
       signUpData: {...state.signUpData, error}

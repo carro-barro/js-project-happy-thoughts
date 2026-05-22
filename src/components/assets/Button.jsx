@@ -40,6 +40,6 @@ const StyledButton = styled.button`
 `
 
 
-export const Button = ({ variant, text, onClick, $isClicked, disabled, ...props }) => {
-  return <StyledButton $variant={variant} onClick={onClick} $isClicked={$isClicked} disabled={disabled} {...props}>{text}</StyledButton>
+export const Button = ({ variant, onClick, $isClicked, disabled, text, children, ...props}) => {
+  return <StyledButton $variant={variant} onClick={onClick} $isClicked={$isClicked} disabled={disabled} {...props} text={text}>{children}</StyledButton>
 }

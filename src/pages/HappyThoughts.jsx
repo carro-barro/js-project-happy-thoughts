@@ -54,24 +54,15 @@ export const HappyThoughts = () => {
   }, [])
   return (
     <>
-      {!user ? (
-        <>
-          <LogInForm/>
-          {/* lägg in så att loginform länkar till signup */}
-        </>
-      ) : (
-        <>
-          <Form setMessages={setMessages} />
-          {loading && <Loader />}
-          {error && <ErrorMessage />}
-          {(messages || []).map((message) =>
-            <SubmittedMessage
-              key={message._id}
-              submittedMessage={message.message} timestamp={message.createdAt} likes={message.hearts} _id={message._id}
-              onLike={handleLikes}
-            />
-          )}
-        </>
+      <Form setMessages={setMessages} />
+      {loading && <Loader />}
+      {error && <ErrorMessage />}
+      {(messages || []).map((message) =>
+        <SubmittedMessage
+          key={message._id}
+          submittedMessage={message.message} timestamp={message.createdAt} likes={message.hearts} _id={message._id}
+          onLike={handleLikes}
+        />
       )}
     </>
   )

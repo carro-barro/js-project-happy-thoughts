@@ -18,14 +18,14 @@ const StyledContentContainer = styled.div`
 `
 
 export const Signup = () => {
-  // const [user, setUser] = useState(null)
+  const [user, setUser] = useState(null)
   const navigate = useNavigate()
   // const { setUserData } = useUserStore()
 
 
   const handleSignUp = (userData) => {
-    // setUser(userData)
-    setUserData(userData) // AI
+    setUser(userData)
+    // setUserData(userData) // AI
     navigate('/konto')
   }
   return (
