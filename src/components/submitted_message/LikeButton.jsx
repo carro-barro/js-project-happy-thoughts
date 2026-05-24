@@ -41,8 +41,8 @@ export const LikeButton = ({ likes, _id, onLike }) => {
         onClick={handleClick}
         $isClicked={isLiked}
         disabled={isLiked}
-      >❤️
-      </Button>
+        text="❤️"
+      />
       <p> x {likes}</p>
     </StyledLikeContainer>
   )

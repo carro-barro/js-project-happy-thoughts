@@ -103,7 +103,7 @@ export const Form = ({ setMessages }) => {
         />
         <StyledCounter $isOverLimit={isOverLimit}>{isOverLimit ? 0 : remainingChars} characters remaining</StyledCounter>
         {error && <StyledError>{error}</StyledError>}
-        <Button variant="submit" type="submit">❤️ Send Happy Thought ❤️</Button>
+        <Button variant="submit" type="submit" text="❤️ Send Happy Thought ❤️" />
       </form>
     </Card>
   )
