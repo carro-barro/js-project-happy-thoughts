@@ -1,7 +1,14 @@
 import styled from "styled-components"
-import { Card } from "../assets/Card"
+import { Card } from "../reusable/Card"
 import { LikeButton } from "./LikeButton"
 import { DateDisplay } from "./DisplayDate"
+import { DeleteButton } from "./DeleteButton"
+
+const StyledWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between
+`
 
 const StyledMessage = styled.p`
   font-size: 13px;
@@ -19,10 +26,13 @@ const StyledInfo = styled.div`
   color: ${({ theme }) => theme.color.text.secondary};
 `
 
-export const SubmittedMessage = ({ submittedMessage, timestamp, likes, _id, onLike }) => {
+export const SubmittedMessage = ({ submittedMessage, timestamp, likes, _id, onLike, onDelete }) => {
   return (
     <Card variant="submitted">
-      <StyledMessage>{submittedMessage}</StyledMessage>
+      <StyledWrapper>
+        <StyledMessage>{submittedMessage}</StyledMessage>
+        <DeleteButton onClick={() => onDelete?.(_id)} />
+      </StyledWrapper>
       <StyledInfo>
         <LikeButton likes={likes} _id={_id} onLike={onLike} />
         <DateDisplay timestamp={timestamp} />

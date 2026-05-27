@@ -23,6 +23,15 @@ const StyledButton = styled.button`
       background-color: ${theme.color.action.secondary};
     `}
 
+  ${({ $variant }) => 
+    $variant === "delete" &&
+    `
+      align-self: flex-end;
+      background: transparent;
+      padding: 0;
+    `
+  }
+
   ${({ theme, $variant, $isClicked }) =>
     $variant === "like" &&
     `
@@ -41,5 +50,5 @@ const StyledButton = styled.button`
 
 
 export const Button = ({ variant, onClick, $isClicked, disabled, text, children, ...props}) => {
-  return <StyledButton $variant={variant} onClick={onClick} $isClicked={$isClicked} disabled={disabled} {...props}>{text}</StyledButton>
+  return <StyledButton $variant={variant} onClick={onClick} $isClicked={$isClicked} disabled={disabled} {...props}>{text}{children}</StyledButton>
 }

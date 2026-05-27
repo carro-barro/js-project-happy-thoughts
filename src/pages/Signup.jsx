@@ -1,7 +1,7 @@
 
 import styled from 'styled-components'
 import { SignUpCard } from '../components/signup/SignupCard'
-import { Button } from "../components/assets/Button"
+import { Button } from "../components/reusable/Button"
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -25,7 +25,7 @@ export const Signup = () => {
 
   const handleSignUp = (userData) => {
     setUser(userData)
-    // setUserData(userData) // AI
+    localStorage.setItem("user", JSON.stringify(userData))
     navigate('/happy-thoughts')
   }
   return (

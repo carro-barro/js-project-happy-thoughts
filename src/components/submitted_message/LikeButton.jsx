@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import { Button } from "../assets/Button"
+import { Button } from "../reusable/Button"
 import { useState, useEffect } from "react"
 
 const StyledLikeContainer = styled.div`

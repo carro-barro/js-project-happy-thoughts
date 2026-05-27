@@ -1,8 +1,8 @@
 // [ ] ändra så att den stämmer till projektet, direkt kopierad från medlemsportalen
 
 import styled from 'styled-components'
-import { Button } from '../assets/Button' 
-import { FormInput } from "../assets/FormInput"
+import { Button } from '../reusable/Button' 
+import { FormInput } from "../reusable/FormInput"
 import { API_URL_USERS } from '../../Constants' 
 import { useFormStore } from "../../store/useFormStore" 
 
@@ -23,7 +23,7 @@ export const LogInForm = ({ handleLogin }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault()
-    console.log("Submit klickad", loginData)
+    console.log("Submit clicked", loginData)
 
     if (!loginData.email || !loginData.password) {
       setLoginError("Please fill in all fields")
@@ -78,9 +78,9 @@ export const LogInForm = ({ handleLogin }) => {
           type="email" 
           id="email" 
           name="email"
-          placeholder="exempel@exempel.se"
+          placeholder="example@example.com"
           value={loginData.email}
-          label="E-post"
+          label="Email"
         />
         <FormInput 
           onChange={(event) => setLoginField('password', event.target.value)} 
@@ -89,13 +89,13 @@ export const LogInForm = ({ handleLogin }) => {
           name="password"
           placeholder="ex. 1234"
           value={loginData.password}
-          label="Lösenord"
+          label="Password"
         />
       </StyledContentContainer>
       {loginData.error && <p>{loginData.error}</p>}
       <Button 
         type="submit"
-        text={loginData.isSubmitting ? "Loggar in..." : "Logga in"}
+        text={loginData.isSubmitting ? "Logging in..." : "Log in"}
         variant="submit" disabled={loginData.isSubmitting}
       />
     </StyledForm>

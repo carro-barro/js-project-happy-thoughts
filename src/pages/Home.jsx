@@ -1,6 +1,6 @@
 
 import styled from 'styled-components'
-import { Button } from "../components/assets/Button"
+import { Button } from "../components/reusable/Button"
 import { Link } from 'react-router-dom'
 
 // [ ] fixa så det matchar theme
@@ -26,11 +26,11 @@ export const Home = () => {
 
   return (
       <StyledHome>
-        <h1>Välkommen till Happy Thoughts!</h1>
-        <p>Logga in eller skapa ditt konto nedan</p>
+        <h1>Welcome to Happy Thoughts!</h1>
+        <p>Log in or create your account below</p>
         <StyledContentContainer>
-          <Button as={Link} to="/logga-in" text="Logga in" variant="submit"/> 
-          <Button as={Link} to="/skapa-konto" text="Skapa konto" variant="submit"/> 
+          <Button as={Link} to="/log-in" text="Log in" variant="submit"/> 
+          <Button as={Link} to="/sign-up" text="Sign up" variant="submit"/> 
       </StyledContentContainer>
      </StyledHome>
    )

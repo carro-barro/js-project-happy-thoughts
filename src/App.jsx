@@ -5,7 +5,7 @@ import { HappyThoughts } from "./pages/HappyThoughts"
 import { Login } from "./pages/Login"
 import { Signup } from "./pages/Signup"
 import { Home } from "./pages/Home"
-import { ProtectedRoute } from "./components/assets/ProtectedRoute"
+import { ProtectedRoute } from "./components/reusable/ProtectedRoute"
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -25,8 +25,8 @@ export const App = () => {
       <BrowserRouter>
         <Routes>
             <Route path="/" element={ <Home/>}/>
-            <Route path="/logga-in" element={<Login />}/>
-            <Route path="/skapa-konto" element={<Signup/>}/>
+            <Route path="/log-in" element={<Login />}/>
+            <Route path="/sign-up" element={<Signup/>}/>
             <Route element={<ProtectedRoute />}>
               <Route path="/happy-thoughts" element={<HappyThoughts/>}/>
             </Route>

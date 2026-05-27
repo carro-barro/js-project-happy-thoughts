@@ -1,8 +1,8 @@
 // [ ] ändra så att den stämmer till projektet, direkt kopierad från medlemsportalen
 
 import styled from 'styled-components'
-import { Button } from '../assets/Button'
-import { FormInput } from "../assets/FormInput"
+import { Button } from '../reusable/Button'
+import { FormInput } from "../reusable/FormInput"
 import { useFormStore } from '../../store/useFormStore'
 import { API_URL_USERS } from '../../Constants' 
 
@@ -20,7 +20,7 @@ export const SignUpForm = ({ handleSignUp }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault()
-    console.log("Submit klickad", signUpData)
+    console.log("Submit clicked", signUpData)
 
     setSignUpError('')
     setSignUpSubmitting(true)
@@ -46,14 +46,15 @@ export const SignUpForm = ({ handleSignUp }) => {
       if (!response.ok) {
         throw new Error(data?.message || "Sign up failed")
       }
-      console.log("Sign up lyckades, anropar handleSignUp")
+      console.log("Sign up successful, calling handleSignUp")
 
       if (handleSignUp) {
         handleSignUp(data.response)
         resetSignUp()
-      }
+      } 
+
     } catch (error) {
-      setSignUpError(error.message || "Ett fel inträffade vid registrering")
+      setSignUpError(error.message || "Error signing up")
     } finally {
       setSignUpSubmitting(false)
     }
@@ -70,9 +71,9 @@ export const SignUpForm = ({ handleSignUp }) => {
         name="firstName"
         required
         value={signUpData.firstName}
-        placeholder="ex. Anna"
+        placeholder="ex. Jane"
         onChange={(event) => setSignUpField('firstName', event.target.value)}
-        label="Förnamn" />
+        label="First Name" />
       <FormInput 
         variant="signup"
         type="text" 
@@ -80,9 +81,9 @@ export const SignUpForm = ({ handleSignUp }) => {
         name="lastName"
         required
         value={signUpData.lastName}
-        placeholder="ex. Andersson"
+        placeholder="ex. Doe"
         onChange={(event) => setSignUpField('lastName', event.target.value)}
-        label="Efternamn" />
+        label="Last Name" />
       <FormInput 
         variant="signup"
         type="email" 
@@ -90,9 +91,9 @@ export const SignUpForm = ({ handleSignUp }) => {
         name="email" 
         required
         value={signUpData.email}
-        placeholder="anna.andersson@exempel.se"
+        placeholder="jane.doe@example.com"
         onChange={(event) => setSignUpField('email', event.target.value)}
-        label="E-post" />
+        label="Email" />
       <FormInput 
         variant="signup"
         type="password" 
@@ -102,10 +103,11 @@ export const SignUpForm = ({ handleSignUp }) => {
         value={signUpData.password}
         placeholder="ex. 1234"
         onChange={(event) => setSignUpField('password', event.target.value)}
-        label="Lösenord" />
+        label="Password" />
+      {signUpData.error && <p>{signUpData.error}</p>}
       <Button
         type="submit"
-        text={signUpData.isSubmitting ? "Skapar konto..." : "Skapa konto"} 
+        text={signUpData.isSubmitting ? "Creating account..." : "Create account"} 
         variant="submit" disabled={signUpData.isSubmitting}/>
     </StyledForm>
   )

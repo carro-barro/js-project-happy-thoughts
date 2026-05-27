@@ -2,28 +2,11 @@
 import styled from "styled-components"
 import { useState } from "react"
 import { FormLegend } from "./FormLegend"
-import { Button } from "../assets/Button"
-import { Card } from "../assets/Card"
-import { FormInput } from "../assets/FormInput"
+import { Button } from "../reusable/Button"
+import { Card } from "../reusable/Card"
+import { FormInput } from "../reusable/FormInput"
 import { API_URL_HAPPY_THOUGHTS, MAX_LENGTH, MIN_LENGTH } from "../../Constants"
 
-const StyledInput = styled.input`
-  font-family: monospace;
-  padding: 10px 20px 40px 10px;
-  margin-bottom: 10px;
-  border: 1px solid ${({ theme, $isOverLimit }) => $isOverLimit ? 'red' : theme.color.text.secondary};
-  font-size: 13px;
-  width: 100%;
-
-  &:focus {
-    outline: none;
-    border-color: ${({ theme, $isOverLimit }) => $isOverLimit ? 'red' : theme.color.text.secondary};
-  }
-
-  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    font-size: 15px;
-}
-`
 const StyledCounter = styled.p`
   color: ${({ theme, $isOverLimit }) => $isOverLimit ? 'red' : theme.color.text.secondary};
 `
@@ -37,6 +20,12 @@ const StyledError = styled.p`
 export const Form = ({ setMessages }) => {
   const [myValue, setMyValue] = useState("")
   const [error, setError] = useState(null)
+
+ const localUser = localStorage.getItem("user")
+
+  const user = localUser && localUser !== "undefined" ? JSON.parse(localUser) : null
+
+  const token = user?.accessToken
 
   const trimmedValue = myValue.trim()
   const remainingChars = MAX_LENGTH - myValue.length
@@ -73,17 +62,19 @@ export const Form = ({ setMessages }) => {
     }
 
     try {
-      const response = await fetch(`${API_URL_HAPPY_THOUGHTS}`, {
+      const response = await fetch(`${API_URL_HAPPY_THOUGHTS}/`, {
         method: "POST",
         body: JSON.stringify(postedMessage),
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
       })
       const newMessage = await response.json()
 
-
-      setMessages(prevMessages => [newMessage, ...prevMessages])
-
-      setMyValue("")
+      if (response.ok && newMessage.success) {
+        setMessages(prevMessages => [newMessage.response, ...prevMessages])
+        setMyValue("")
+      } else {
+        setError("Error submitting message")
+      }
     } catch (error) {
       console.error("Error submitting message:", error)
     }

@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { LogInForm } from "./LoginForm"
 import { Link } from 'react-router-dom'
-import { Card } from '../assets/Card'
+import { Card } from '../reusable/Card'
 
 const StyledTextContainer = styled.div`
 
@@ -20,12 +20,12 @@ export const LogInCard = ({ handleLogin }) => {
   return (
     <Card variant="form">
       <StyledTextContainer>
-        <h1>Logga in</h1>
-        <p>Fyll i dina uppgifter för att logga in.</p>
+        <h1>Log in</h1>
+        <p>Fill in your details to log in.</p>
       </StyledTextContainer>
       <LogInForm handleLogin={handleLogin} />
       <StyledLoginContainer>
-        <p>Inte registrerad? Bli medlem <StyledLink to="/skapa-konto">här</StyledLink></p>
+        <p>Not registered? Sign up <StyledLink to="/sign-up">here</StyledLink></p>
       </StyledLoginContainer>
     </Card>
   )

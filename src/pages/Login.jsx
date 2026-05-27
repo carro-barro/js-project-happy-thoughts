@@ -1,7 +1,7 @@
 
 import styled from 'styled-components'
 import { LogInCard } from '../components/login/LoginCard'
-import { Button } from '../components/assets/Button'
+import { Button } from '../components/reusable/Button'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
