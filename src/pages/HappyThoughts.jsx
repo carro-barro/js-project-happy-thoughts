@@ -18,17 +18,22 @@ export const HappyThoughts = () => {
 
   const token = user?.accessToken
 
-  const handleLikes = async (_id) => {
+  const handleLikes = async (id) => {
     try {
 
       // [ ] ändra till rätt like route, har inte skapat den i backend än
-      const response = await fetch(`${API_URL_HAPPY_THOUGHTS}/${_id}/like`, {
-        method: "POST"
+      const response = await fetch(`${API_URL_HAPPY_THOUGHTS}/${id}/like`, {
+        method: "PATCH"
       })
 
-      const updatedMessage = await response.json()
+      const json = await response.json()
 
-      setMessages(prevMessages => prevMessages.map(msg => msg._id === updatedMessage._id ? updatedMessage : msg))
+      if (response.ok && json.success) {
+        const updatedMessage = json.response
+
+        setMessages(prevMessages => prevMessages.map(msg => msg._id === updatedMessage._id ? updatedMessage : msg))
+      }
+
 
     } catch (error) {
       console.error("Error liking message:", error)
@@ -58,6 +63,38 @@ export const HappyThoughts = () => {
       setMessages(prev => prev.filter(m => m._id !== id))
     } catch (error) {
       console.error("Error deleting message: ", error)
+    }
+  }
+
+  const handleEdit = async (id, newText) => {
+
+    if (!token) {
+      alert("You have to be logged in to edit messages")
+      return
+    }
+
+    try {
+      const response = await fetch(`${API_URL_HAPPY_THOUGHTS}/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({message: newText})
+      })
+
+      const json = await response.json()
+
+      if (response.ok && json.success) {
+        const updatedMessage = json.response
+
+        setMessages(prevMessages => prevMessages.map(msg => msg._id === updatedMessage._id ? updatedMessage : msg))
+      } else {
+        alert(json.message || "Couldn't update the message")
+      }
+
+    } catch (error) {
+      console.error("Error updating message:", error)
     }
   }
 
@@ -96,9 +133,13 @@ export const HappyThoughts = () => {
       {(messages || []).map((message) =>
         <SubmittedMessage
           key={message._id}
-          submittedMessage={message.message} timestamp={message.createdAt} likes={message.hearts} _id={message._id}
+          submittedMessage={message.message} 
+          timestamp={message.createdAt} 
+          likes={message.hearts} 
+          _id={message._id}
           onLike={handleLikes}
           onDelete={deleteMessage}
+          onEdit={handleEdit}
         />
       )}
     </>

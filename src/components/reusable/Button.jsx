@@ -24,7 +24,7 @@ const StyledButton = styled.button`
     `}
 
   ${({ $variant }) => 
-    $variant === "delete" &&
+    ($variant === "delete" || $variant === "edit") &&
     `
       align-self: flex-end;
       background: transparent;

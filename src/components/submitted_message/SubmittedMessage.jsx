@@ -3,6 +3,9 @@ import { Card } from "../reusable/Card"
 import { LikeButton } from "./LikeButton"
 import { DateDisplay } from "./DisplayDate"
 import { DeleteButton } from "./DeleteButton"
+import { EditButton } from "./EditButton"
+import { useState } from "react"
+import { EditInput } from "./EditInput"
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -17,6 +20,12 @@ const StyledMessage = styled.p`
     font-size: 15px;
   }
 `
+const StyledButtonWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+`
+
 const StyledInfo = styled.div`
   display: flex;
   justify-content: space-between;
@@ -26,17 +35,39 @@ const StyledInfo = styled.div`
   color: ${({ theme }) => theme.color.text.secondary};
 `
 
-export const SubmittedMessage = ({ submittedMessage, timestamp, likes, _id, onLike, onDelete }) => {
+export const SubmittedMessage = ({ submittedMessage, timestamp, likes, _id, onLike, onDelete, onEdit }) => {
+  const [ isEditing, setIsEditing] = useState(false)
+
+  const handleSave = (newText) => {
+    onEdit(_id, newText)
+    setIsEditing(false)
+  }
+
   return (
     <Card variant="submitted">
-      <StyledWrapper>
-        <StyledMessage>{submittedMessage}</StyledMessage>
-        <DeleteButton onClick={() => onDelete?.(_id)} />
-      </StyledWrapper>
-      <StyledInfo>
-        <LikeButton likes={likes} _id={_id} onLike={onLike} />
-        <DateDisplay timestamp={timestamp} />
-      </StyledInfo>
+
+      {isEditing ? (
+        <EditInput 
+          initialMessage={submittedMessage}
+          onSave={handleSave}
+          onCancel={() => setIsEditing(false)}
+        />
+      ) : (
+        <>
+          <StyledWrapper>
+            <StyledMessage>{submittedMessage}</StyledMessage>
+            <StyledButtonWrapper>
+              <DeleteButton onClick={() => onDelete?.(_id)} />
+              <EditButton onClick={() => setIsEditing(true)} />
+            </StyledButtonWrapper>
+          </StyledWrapper>
+          <StyledInfo>
+            <LikeButton likes={likes} _id={_id} onLike={onLike} />
+            <DateDisplay timestamp={timestamp} />
+          </StyledInfo>
+        </>
+      )}
+
     </Card>
   )
 }
